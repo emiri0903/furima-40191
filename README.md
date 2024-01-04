@@ -1,24 +1,49 @@
-# README
+# users テーブル
+| Column             | Type              | Options     |
+| ------------------ | ----------------- | ----------- |
+| name               | string            | null: false |
+| email              | string            | null: false |
+| password_digest    | string            | null: false |
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# purchases テーブル
+| Column            | Type   | Options     |
+| ----------------- | ------ | ----------- |
+| post_number       | string | null: false |
+| prefecture        | string | null: false |
+| city              | text   | null: false |
+| address_number    | text   | null: false |
+| building_name     | text   | null: false |
+| phone_number      | text   | null: false |
 
-Things you may want to cover:
+# comments テーブル
+| Column  | Type    | Options                       |
+| ------- | ------- | ------------------------------ |
+| content | text    | null: false                   |
+| item_id | reference| null: false, foreign_key: true|
+| user_id | reference| null: false, foreign_key: true|
 
-* Ruby version
+# items テーブル
+| Column         | Type    | Options                        |
+| -------------- | ------- | ------------------------------ |
+| title          | text    | null: false                    |
+| condition      | text    | null: false                    |
+| seller_id      | reference| null: false, foreign_key: true |
+| from_where     | text    | null: false                    |
+| when_will_send | text    | null: false                    |
+| category       | text    | null: false                    |
+| price          | text    | null: false                    |
+| explanation    | text    | null: false                    |
+| photo          | string  | null: false                    |
+| postage        | text    | null: false                    |
 
-* System dependencies
+# Association
+- has_many :comments
+- has_one  :purchase
 
-* Configuration
+# Association
+- has_one :user
 
-* Database creation
+# Association
+- belongs_to :item
+- belongs_to :user
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
