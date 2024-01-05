@@ -1,49 +1,57 @@
 # users テーブル
-| Column             | Type              | Options     |
-| ------------------ | ----------------- | ----------- |
-| name               | string            | null: false |
-| email              | string            | null: false |
-| password_digest    | string            | null: false |
-
-# purchases テーブル
-| Column            | Type   | Options     |
-| ----------------- | ------ | ----------- |
-| post_number       | string | null: false |
-| prefecture        | string | null: false |
-| city              | text   | null: false |
-| address_number    | text   | null: false |
-| building_name     | text   | null: false |
-| phone_number      | text   | null: false |
-
-# comments テーブル
-| Column  | Type    | Options                       |
-| ------- | ------- | ------------------------------ |
-| content | text    | null: false                   |
-| item_id | reference| null: false, foreign_key: true|
-| user_id | reference| null: false, foreign_key: true|
-
-# items テーブル
-| Column         | Type    | Options                        |
-| -------------- | ------- | ------------------------------ |
-| title          | text    | null: false                    |
-| condition      | text    | null: false                    |
-| seller_id      | reference| null: false, foreign_key: true |
-| from_where     | text    | null: false                    |
-| when_will_send | text    | null: false                    |
-| category       | text    | null: false                    |
-| price          | text    | null: false                    |
-| explanation    | text    | null: false                    |
-| photo          | string  | null: false                    |
-| postage        | text    | null: false                    |
+| Column                 | Type              | Options                       |
+| ---------------------- | ----------------- | ----------------------------- |
+| nickname               | string            | null: false                   |
+| email                  | string            | null: false, unique: true      |
+| password_digest        | string            | null: false                   |
+| name_kanji_sei         | string            | null: false                   |
+| name_kanji_mei         | string            | null: false                   |
+| name_kana_sei          | string            | null: false                   |
+| name_kana_mei          | string            | null: false                   |
+| birthyear              | integer           | null: false                   |
+| birthmonth             | integer           | null: false                   |
+| birthday               | integer           | null: false                   |
 
 # Association
-- has_many :comments
-- has_one  :purchase
+- has_many :items
+- has_many :purchase_histories
 
-# Association
-- has_one :user
+# shippings テーブル
+| Column                | Type   | Options     |
+| --------------------- | ------ | ----------- |
+| post_number           | string | null: false |
+| prefecture            | string | null: false |
+| city                  | string | null: false |
+| address_number        | string | null: false |
+| building_name         | string |             |
+| phone_number          | string | null: false |
 
 # Association
 - belongs_to :item
-- belongs_to :user
 
+# items テーブル
+| Column               | Type    | Options                        |
+| -------------------- | ------- | ------------------------------ |
+| title                | string  | null: false                    |
+| condition            | string  | null: false                    |
+| from_where           | string  | null: false                    |
+| when_will_send       | string  | null: false                    |
+| category             | string  | null: false                    |
+| price                | integer | null: false                    |
+| explanation          | text    | null: false                    |
+| postage              | string  | null: false                    |
+| user_id              | integer | null: false, foreign_key: true |
+
+# Association
+- belongs_to :user
+- has_many :purchase_histories
+
+# purchase_histories テーブル
+| Column               | Type    | Options                        |
+| -------------------- | ------- | ------------------------------ |
+| item_id              | integer | null: false, foreign_key: true |
+| user_id              | integer | null: false, foreign_key: true |
+
+# Association
+- belongs_to :user
+- belongs_to :item
