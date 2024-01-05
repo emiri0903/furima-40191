@@ -23,7 +23,7 @@
 | address_number        | string | null: false |
 | building_name         | string |             |
 | phone_number          | string | null: false |
-| purchase_history      |integer | null: false |
+| purchase_history      |reference| null: false, foreign_key :true |
 
 # Association
 - belongs_to :purchase_history
@@ -52,6 +52,6 @@
 | user                 | references | null: false, foreign_key: true |
 
 # Association
-
+- belongs_to :user
 - belongs_to :item
 - has_one :shipping
