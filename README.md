@@ -23,18 +23,17 @@
 | address_number        | string | null: false |
 | building_name         | string |             |
 | phone_number          | string | null: false |
+| purchase_history_id   |integer | null: false |
 
 # Association
-- belongs_to :item
-- belongs_to :purchase_histories
-
+- belongs_to :purchase_history
 
 # items テーブル
 | Column               | Type       | Options                        |
 | -------------------- | -------    | ------------------------------ |
 | title                | string     | null: false                    |
 | condition_id         | integer    | null: false                    |
-| from_where_id        | integer    | null: false                    |
+| prefecture_id        | integer    | null: false                    |
 | when_will_send_id    | integer    | null: false                    |
 | category_id          | integer    | null: false                    |
 | price                | integer    | null: false                    |
@@ -44,7 +43,7 @@
 
 # Association
 - belongs_to :user
-- has_many :purchase_histories
+- has_one :purchase_history
 
 # purchase_histories テーブル
 | Column               | Type       | Options                        |
@@ -54,4 +53,6 @@
 
 # Association
 - belongs_to :user
-- belongs_to :item
+- belongs_to :shipping
+- has_many :items
+
