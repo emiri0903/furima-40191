@@ -1,24 +1,57 @@
-# README
+# users テーブル
+| Column                 | Type             | Options                       |
+| ---------------------- | -----------------| ----------------------------- |
+| nickname               | string           | null: false                   |
+| email                  | string           | null: false, unique:true      |
+| encrypted_password     | string           | null: false                   |
+| name_kanji_sei         | string           | null: false                   |
+| name_kanji_mei         | string           | null: false                   |
+| name_kana_sei          | string           | null: false                   |
+| name_kana_mei          | string           | null: false                   |
+| birth_day              | date             | null: false                   |
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Association
+- has_many :items
+- has_many :purchase_histories
 
-Things you may want to cover:
+# shippings テーブル
+| Column                | Type   | Options     |
+| --------------------- | ------ | ----------- |
+| post_number           | string | null: false |
+| prefecture_id         |integer | null: false |
+| city                  | string | null: false |
+| address_number        | string | null: false |
+| building_name         | string |             |
+| phone_number          | string | null: false |
+| purchase_history      |reference| null: false, foreign_key :true |
 
-* Ruby version
+# Association
+- belongs_to :purchase_history
 
-* System dependencies
+# items テーブル
+| Column               | Type       | Options                        |
+| -------------------- | -------    | ------------------------------ |
+| title                | string     | null: false                    |
+| condition_id         | integer    | null: false                    |
+| prefecture_id        | integer    | null: false                    |
+| when_will_send_id    | integer    | null: false                    |
+| category_id          | integer    | null: false                    |
+| price                | integer    | null: false                    |
+| explanation          | text       | null: false                    |
+| postage_id           | integer    | null: false                    |
+| user                 | references | null: false, foreign_key: true |
 
-* Configuration
+# Association
+- belongs_to :user
+- has_one :purchase_history
 
-* Database creation
+# purchase_histories テーブル
+| Column               | Type       | Options                        |
+| -------------------- | -------    | ------------------------------ |
+| item                 | references | null: false, foreign_key: true |
+| user                 | references | null: false, foreign_key: true |
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# Association
+- belongs_to :user
+- belongs_to :item
+- has_one :shipping
