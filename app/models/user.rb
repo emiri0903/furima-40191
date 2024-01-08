@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :nickname, presence: true
+  validates :email, uniqueness: true
   validates :name_kanji_sei, presence: true
   validates :name_kanji_mei, presence: true
   validates :name_kanji_sei, :name_kanji_mei, format: { with: /\A[ぁ-んァ-ン一-龥々]+\z/, message: "is invalid" }
