@@ -28,7 +28,7 @@ RSpec.describe User, type: :model do
         another_user = FactoryBot.build(:user, email: @user.email)
         expect(another_user.errors.full_messages).to include("Email has already been taken") if !another_user.valid?
       end
-      
+
       it 'メールアドレスは@を含む必要がある' do
         @user.email = 'testexample.com'  # @ を含まない例
         @user.valid?
@@ -89,12 +89,16 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include("Name kanji mei can't be blank")
       end     
 
-      it 'お名前(全角)は、全角での入力が必須であること' do
-        @user.name_kanji_sei = 'Smith'  # 半角の名字
-        @user.name_kanji_mei = 'John'   # 半角の名前
+      it 'お名前(漢字)（姓）は、全角での入力が必須であること' do
+        @user.name_kanji_sei = 'Smith'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Name kanji sei is invalid", "Name kanji mei is invalid")
-      end      
+        expect(@user.errors.full_messages).to include("Name kanji sei is invalid")
+      end
+      it 'お名前(漢字)（名）、全角での入力が必須であること' do
+        @user.name_kanji_mei = 'John'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Name kanji mei is invalid")
+       end  
 
       it 'カナ（苗字）がからでは登録できない' do
         @user.name_kana_sei = ''  # 全角ひらがなの姓
@@ -106,6 +110,90 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include("Name kana mei can't be blank")
       end
+      it '姓（カナ）に平仮名が含まれていると登録できない' do
+        @user.name_kanji_sei = 'やまだ'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Name kana sei is invalid")
+      end
+      it '姓（カナ）に漢字が含まれていると登録できない' do
+        @user.name_kanji_sei = '山田'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Name kana sei is invalid")
+      end
+      it '姓（カナ）に英数字が含まれていると登録できない' do
+        @user.name_kanji_sei = '123'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Name kana sei is invalid")
+      end
+      it '姓（カナ）に記号が含まれていると登録できない' do
+        @user.name_kanji_sei = '¥!#'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Name kana sei is invalid")
+      end
+      it '名（カナ）に平仮名が含まれていると登録できない' do
+        @user.name_kanji_sei = 'たろう'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Name kana mei is invalid")
+      end
+      it '名（カナ）に漢字が含まれていると登録できない' do
+        @user.name_kanji_sei = '太郎'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Name kana mei is invalid")
+      end
+      it '名（カナ）に英数字が含まれていると登録できない' do
+        @user.name_kanji_sei = '123'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Name kana mei is invalid")
+      end
+      it '名（カナ）に記号が含まれていると登録できない' do
+        @user.name_kanji_sei = '¥!#'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Name kana mei is invalid")
+      end
+
+
+
+      it '姓（漢字）に平仮名が含まれていると登録できない' do
+        @user.name_kanji_sei = 'やまだ'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Name kanji sei is invalid")
+      end
+      it '姓（漢字）にカタカナが含まれていると登録できない' do
+        @user.name_kanji_sei = 'ヤマダ'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Name kanji sei is invalid")
+      end
+      it '姓（漢字）に英数字が含まれていると登録できない' do
+        @user.name_kanji_sei = '123'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Name kanji sei is invalid")
+      end
+      it '姓（漢字）に記号が含まれていると登録できない' do
+        @user.name_kanji_sei = '¥!#'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Name kanji sei is invalid")
+      end
+      it '名（漢字）に平仮名が含まれていると登録できない' do
+        @user.name_kanji_sei = 'たろう'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Name kanji mei is invalid")
+      end
+      it '名（漢字）にカタカナが含まれていると登録できない' do
+        @user.name_kanji_sei = 'タロウ'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Name kanji mei is invalid")
+      end
+      it '名（漢字）に英数字が含まれていると登録できない' do
+        @user.name_kanji_sei = '123'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Name kanji mei is invalid")
+      end
+      it '名（漢字）に記号が含まれていると登録できない' do
+        @user.name_kanji_sei = '¥!#'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Name kanji mei is invalid")
+      end
+
 
       it '生年月日が必須であること' do
         @user.birth_day = ''
