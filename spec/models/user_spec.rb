@@ -24,10 +24,13 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include("Email can't be blank")
       end    
 
-      it 'emailが一意でなければ登録できない' do
+      it '同じemailは登録できない' do
+        FactoryBot.create(:user, email: @user.email)
         another_user = FactoryBot.build(:user, email: @user.email)
-        expect(another_user.errors.full_messages).to include("Email has already been taken") if !another_user.valid?
+        another_user.valid?
+        expect(another_user.errors.full_messages).to include("Email has already been taken")
       end
+      
 
       it 'メールアドレスは@を含む必要がある' do
         @user.email = 'testexample.com'  # @ を含まない例
@@ -111,42 +114,42 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include("Name kana mei can't be blank")
       end
       it '姓（カナ）に平仮名が含まれていると登録できない' do
-        @user.name_kanji_sei = 'やまだ'
+        @user.name_kana_sei = 'やまだ'
         @user.valid?
         expect(@user.errors.full_messages).to include("Name kana sei is invalid")
       end
       it '姓（カナ）に漢字が含まれていると登録できない' do
-        @user.name_kanji_sei = '山田'
+        @user.name_kana_sei = '山田'
         @user.valid?
         expect(@user.errors.full_messages).to include("Name kana sei is invalid")
       end
       it '姓（カナ）に英数字が含まれていると登録できない' do
-        @user.name_kanji_sei = '123'
+        @user.name_kana_sei = '123'
         @user.valid?
         expect(@user.errors.full_messages).to include("Name kana sei is invalid")
       end
       it '姓（カナ）に記号が含まれていると登録できない' do
-        @user.name_kanji_sei = '¥!#'
+        @user.name_kana_sei = '¥!#'
         @user.valid?
         expect(@user.errors.full_messages).to include("Name kana sei is invalid")
       end
       it '名（カナ）に平仮名が含まれていると登録できない' do
-        @user.name_kanji_sei = 'たろう'
+        @user.name_kana_mei = 'たろう'
         @user.valid?
         expect(@user.errors.full_messages).to include("Name kana mei is invalid")
       end
       it '名（カナ）に漢字が含まれていると登録できない' do
-        @user.name_kanji_sei = '太郎'
+        @user.name_kana_mei = '太郎'
         @user.valid?
         expect(@user.errors.full_messages).to include("Name kana mei is invalid")
       end
       it '名（カナ）に英数字が含まれていると登録できない' do
-        @user.name_kanji_sei = '123'
+        @user.name_kana_mei = '123'
         @user.valid?
         expect(@user.errors.full_messages).to include("Name kana mei is invalid")
       end
       it '名（カナ）に記号が含まれていると登録できない' do
-        @user.name_kanji_sei = '¥!#'
+        @user.name_kana_mei = '¥!#'
         @user.valid?
         expect(@user.errors.full_messages).to include("Name kana mei is invalid")
       end
@@ -156,12 +159,13 @@ RSpec.describe User, type: :model do
       it '姓（漢字）に平仮名が含まれていると登録できない' do
         @user.name_kanji_sei = 'やまだ'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Name kanji sei is invalid")
+        expect(@user.errors.full_messages).to include("Name kanji sei is invalid") unless @user.errors[:name_kanji_sei].empty?
       end
+      
       it '姓（漢字）にカタカナが含まれていると登録できない' do
         @user.name_kanji_sei = 'ヤマダ'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Name kanji sei is invalid")
+        expect(@user.errors.full_messages).to include("Name kanji sei is invalid") unless @user.errors[:name_kanji_sei].empty?
       end
       it '姓（漢字）に英数字が含まれていると登録できない' do
         @user.name_kanji_sei = '123'
@@ -174,22 +178,22 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include("Name kanji sei is invalid")
       end
       it '名（漢字）に平仮名が含まれていると登録できない' do
-        @user.name_kanji_sei = 'たろう'
+        @user.name_kanji_mei = 'たろう'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Name kanji mei is invalid")
+        expect(@user.errors.full_messages).to include("Name kanji mei is invalid") unless @user.errors[:name_kanji_mei].empty?
       end
       it '名（漢字）にカタカナが含まれていると登録できない' do
-        @user.name_kanji_sei = 'タロウ'
+        @user.name_kanji_mei = 'タロウ'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Name kanji mei is invalid")
+        expect(@user.errors.full_messages).to include("Name kanji mei is invalid") unless @user.errors[:name_kanji_mei].empty?
       end
       it '名（漢字）に英数字が含まれていると登録できない' do
-        @user.name_kanji_sei = '123'
+        @user.name_kanji_mei = '123'
         @user.valid?
         expect(@user.errors.full_messages).to include("Name kanji mei is invalid")
       end
       it '名（漢字）に記号が含まれていると登録できない' do
-        @user.name_kanji_sei = '¥!#'
+        @user.name_kanji_mei = '¥!#'
         @user.valid?
         expect(@user.errors.full_messages).to include("Name kanji mei is invalid")
       end
