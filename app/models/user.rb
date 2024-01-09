@@ -8,7 +8,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
   validates :name_kanji_sei, presence: true
   validates :name_kanji_mei, presence: true
-  validates :name_kanji_sei, :name_kanji_mei, format: { with: /\A[ぁ-んァ-ン一-龥々]+\z/, message: "is invalid" }
+  validates :name_kanji_sei, :name_kanji_mei, format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/, message: "is invalid" }
   validates :name_kana_sei, presence: true
   validates :name_kana_mei, presence: true
   validates :name_kana_sei, :name_kana_mei, format: { with: /\A[ァ-ヶー－]+\z/, message: "is invalid" }
