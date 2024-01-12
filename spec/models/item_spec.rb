@@ -16,9 +16,8 @@ RSpec.describe Item, type: :model do
 
     context '出品できない場合' do
       it "商品画像がないと出品できない" do
-        item = FactoryBot.build(:item)
-        item.image = nil
-        item.valid?
+        @item.image = nil
+        @item.valid?
         expect(item.errors.full_messages).to include("Image can't be blank")
       end
 
@@ -35,35 +34,34 @@ RSpec.describe Item, type: :model do
       end
 
       it "カテゴリーの情報がないと出品できない" do
-        @item.category_id = nil
+        @item.category_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Category can't be blank")
       end
 
       it "商品の状態の情報がないと出品できない" do
-        @item.condition_id = nil
+        @item.condition_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Condition can't be blank")
       end
 
       it "配送料の負担の情報がないと出品できない" do
-        @item.postage_id = nil
+        @item.postage_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Postage can't be blank")
       end
 
       it "発送元の地域の情報がないと出品できない" do
-        @item.prefecture_id = nil
+        @item.prefecture_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Prefecture can't be blank")
       end
 
       it "発送までの日数の情報がないと出品できない" do
-        @item.when_will_send_id = nil
+        @item.when_will_send_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("When will send can't be blank")
       end
-
       it "価格が300円より安いと出品できない" do
         @item.price = 299
         @item.valid?
@@ -78,6 +76,10 @@ RSpec.describe Item, type: :model do
         @item.price = "あいうえおか"
         @item.valid?
         expect(@item.errors.full_messages).to include("Price is not a number")
+      it 'userが紐付いていないと保存できない' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include('User must exist')
       end
     end
   end
