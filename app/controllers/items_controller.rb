@@ -25,7 +25,7 @@ class ItemsController < ApplicationController
 
   def edit
     unless user_signed_in? && @item.user == current_user
-      redirect_to user_session_path
+      redirect_to root_path
     end
   end
 
