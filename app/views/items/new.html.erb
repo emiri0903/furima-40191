@@ -1,12 +1,10 @@
 <div class="items-sell-contents">
   <header class="items-sell-header">
     <%= link_to image_tag('furima-logo-color.png' , size: '185x50'), "/" %>
-
   </header>
   <div class="items-sell-main">
     <h2 class="items-sell-title">商品の情報を入力</h2>
      <%= form_with model: @item, url: items_path, method: :post, local: true do |f| %>
-
 
     <%= render 'shared/error_messages', model: f.object %>
 
