@@ -1,7 +1,5 @@
 class OrderAddress
   include ActiveModel::Model
-  has_many :orders
-  belongs_to :item
   attr_accessor :price, :post_number, :prefecture_id, :city, :address_number, :building_name, :phone_number, :token, :user_id, :item_id
 
   with_options presence: true do
