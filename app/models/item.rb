@@ -7,6 +7,7 @@ class Item < ApplicationRecord
   belongs_to :postage
   belongs_to :user
   has_one_attached :image
+  has_one :buying_history
 
   validates :title, presence: true
   validates :price, numericality: { only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999 }

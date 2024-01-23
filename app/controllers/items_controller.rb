@@ -24,7 +24,8 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    unless user_signed_in? && @item.user == current_user
+    if current_user.id == @item.user_id && @item.buying_history.blank?
+    else
       redirect_to root_path
     end
   end
@@ -45,7 +46,6 @@ class ItemsController < ApplicationController
       redirect_to root_path
     end
   end
-  
 
   private
 
