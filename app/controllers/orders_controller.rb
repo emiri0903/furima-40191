@@ -1,23 +1,15 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_user!, except: :index
-  before_action :set_current_user
+  before_action :authenticate_user!
   before_action :set_item, only: [:index, :create]
   before_action :move_to_index, only: [:index]
-  before_action :move_to_login, only: [:index]
 
   def index
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
-    @item = Item.find(params[:item_id])
-    @order_address = OrderAddress.new
-  end
-
-  def new
     @order_address = OrderAddress.new
   end
 
   def create
     @order_address = OrderAddress.new(order_params)
-    @item = Item.find(params[:item_id])
   
     if @item.buying_history.present?
       redirect_to root_path
@@ -35,16 +27,8 @@ class OrdersController < ApplicationController
 
   private
 
-  def move_to_login
-    redirect_to new_user_session_path unless user_signed_in?
-  end
-
   def order_params
     params.require(:order_address).permit(:post_number, :prefecture_id, :city, :address_number, :building_name, :phone_number).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
-  end
-
-  def set_current_user
-    @current_user = current_user
   end
 
   def pay_item

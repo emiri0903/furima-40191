@@ -47,11 +47,6 @@ class ItemsController < ApplicationController
     end
   end
 
-  def order
-    @item = Item.find(params[:id])
-    @item.update(purchase_history_id: current_user.id)
-  end
-  
   private
 
   def item_params
