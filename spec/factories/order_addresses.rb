@@ -8,7 +8,5 @@ FactoryBot.define do
     phone_number { '08012345678' }
     price { 3000 }
     token { 'hogehoge' }
-    user { association :user }
-    item { association :item }
   end
 end
