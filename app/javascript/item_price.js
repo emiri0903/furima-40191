@@ -1,12 +1,6 @@
 const priceInput = document.getElementById("item-price");
 priceInput.addEventListener("input", () => {
    const inputValue = parseFloat(priceInput.value);
-
-   if (isNaN(inputValue)) {
-       console.error("Invalid input. Please enter a valid number.");
-       return;
-   }
-
    const addTaxDom = document.getElementById("add-tax-price");
    const taxValue = inputValue * 0.1;
    const roundedTaxValue = Math.floor(taxValue);
