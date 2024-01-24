@@ -1,4 +1,5 @@
-const priceInput = document.getElementById("item-price");
+document.addEventListener("DOMContentLoaded", () => {
+  const priceInput = document.getElementById("item-price");
 priceInput.addEventListener("input", () => {
    const inputValue = parseFloat(priceInput.value);
    const addTaxDom = document.getElementById("add-tax-price");
