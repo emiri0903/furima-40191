@@ -1,3 +1,5 @@
+const price = () => {
+
 const priceInput = document.getElementById("item-price");
 priceInput.addEventListener("input", () => {
    const inputValue = parseFloat(priceInput.value);
@@ -10,3 +12,6 @@ priceInput.addEventListener("input", () => {
    const profitValue = inputValue - roundedTaxValue;
    profitDom.innerHTML = Math.floor(profitValue);
 });
+};
+window.addEventListener("turbo:load", price);
+window.addEventListener("turbo:render", price);
